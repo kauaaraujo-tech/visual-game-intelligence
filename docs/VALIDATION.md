@@ -8,4 +8,10 @@ Standard-library trace observed **1,202/1,297 executable lines (92.6754%)** acro
 
 The architecture separates importers, normalized evidence, detection, reporting and optional visual/model assistance. Reviewed networking is an explicit loopback-only model request; core analysis performs no automatic external uploads. This was a scoped review, not a security certification or complete dependency audit.
 
-**Real-game diagnostic accuracy remains unvalidated.** Log-only input correctly produces `insufficient_data`; successful import does not establish incident accuracy, cause, false-positive rate or capture overhead. Controlled, independently labeled runs remain the next acceptance step. Windows execution, scale limits and optional dependency reproducibility need further validation.
+**Real-game diagnostic accuracy remains unvalidated.** Log-only input correctly produces `insufficient_data`; successful import does not establish incident accuracy, cause, false-positive rate or capture overhead. Controlled, independently labeled runs remain the next acceptance step. Real Windows gameplay acceptance, scale limits and optional dependency reproducibility need further validation.
+
+## Cross-platform CI evidence
+
+[PR workflow run 43370022464](https://github.com/kauaaraujo-tech/visual-game-intelligence/actions/runs/43370022464) passed all six jobs on source commit `c562fa88ce3d9196ab7a37c6f8a244e4e09ab8f0`: Linux and Windows with Python 3.10, 3.12, and 3.13. Jobs exercise the 134-test suite with Pillow, standard-library-only checks (16 expected visual skips), editable installation, CLI smoke tests, compilation, and the public-content scanner.
+
+An initial Windows run exposed a test assumption about short/long temporary-directory names. The test now compares actual file identity; diagnostic behavior was preserved. These are synthetic software checks on CI runners, not a Hookshot/gameplay trial or a measured diagnostic false-positive rate.

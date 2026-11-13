@@ -80,7 +80,7 @@ For a single local acceptance run that collects, analyzes, and records import/ev
 python -m vgi accept /path/to/hookshot/bin --session-closed --out local-acceptance/run-001
 ```
 
-On Windows: `py -3 -m vgi accept 'C:\Games\Hookshot\bin' --session-closed --out .\local-acceptance\run-001`. This checks an imported session; it does not establish that the evidence is authentic or that diagnostics are effective in a real game. See the [local acceptance procedure](docs/LOCAL_ACCEPTANCE.md). Windows execution has not been performed as part of this project's validation.
+On Windows: `py -3 -m vgi accept 'C:\Games\Hookshot\bin' --session-closed --out .\local-acceptance\run-001`. This checks an imported session; it does not establish that the evidence is authentic or that diagnostics are effective in a real game. See the [local acceptance procedure](docs/LOCAL_ACCEPTANCE.md). Synthetic tool checks now run on Windows in CI; real Hookshot gameplay acceptance on a user PC remains pending.
 
 A manifest may also be written directly:
 

@@ -1,6 +1,6 @@
 # Local acceptance — real validation still pending
 
-VGI v0.1.1 is experimental. This procedure is intended for a machine with a supported Hookshot build and a legitimate local installation. No Windows session or real-game diagnostic validation has been performed as part of this project. Remote access is not required to run these commands.
+VGI v0.1.1 is experimental. This procedure is intended for a machine with a supported Hookshot build and a legitimate local installation. No real Windows/Hookshot gameplay session or diagnostic effectiveness validation has been performed. Synthetic tool checks have passed on Windows CI; see the validation summary. Remote access is not required to run these commands.
 
 A successful command establishes that a particular declared session was imported and checked. It does not prove the recording is genuine, a slowdown was correctly diagnosed, a visual candidate is a bug, or a fix works. Those claims require the controlled checks below.
 
@@ -40,6 +40,8 @@ python3 -m vgi accept /path/to/hookshot/bin --session-closed --out local-accepta
 ```
 
 The command orchestrates read-only collection, analysis, and import/evidence checks. It copies only the known metrics file and optional `hookshot_log.txt`; it does not search for ROMs, assets, saves, shader caches, or screenshots, and does not alter the game. The closed-session flag is your declaration, not detection that the process has ended. Evidence is marked user-declared real, not independently verified.
+
+Read `acceptance.json`, `report/report.md`, and `report/report.json`. A successful import still records `real_game_diagnostic_validated=false`, unknown false-positive rate, and unknown capture overhead. For an existing session manifest with correctly aligned captures, pass that JSON file as the source and add `--visual` when Pillow is installed.
 
 Read the generated result, warnings, limitations, and reports. Missing traces, incompatible headers, incomplete evidence, or absent independent validation must remain visible. A command failure can leave a partial new output directory; inspect it and choose a fresh destination for a retry.
 
