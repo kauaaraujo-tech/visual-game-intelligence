@@ -1,0 +1,4 @@
+* text=auto
+# Preserve exact fixture bytes used by recorded SHA256 provenance.
+*.csv -text whitespace=cr-at-eol
+*.ppm -text -diff

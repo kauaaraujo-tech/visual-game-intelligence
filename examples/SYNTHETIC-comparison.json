@@ -1,0 +1,71 @@
+{
+  "after_session_id": "SYNTHETIC-HOOKSHOT-NATIVE",
+  "before_session_id": "SYNTHETIC-HOOKSHOT-NATIVE",
+  "comparable": true,
+  "coverage": {
+    "after": {
+      "excluded_samples": 1,
+      "recorded_duration_ms": 992.0,
+      "samples": 62,
+      "scenario_duration_ms": 992.0,
+      "scenario_frame_range": [
+        0,
+        61
+      ]
+    },
+    "before": {
+      "excluded_samples": 1,
+      "recorded_duration_ms": 1165.0,
+      "samples": 62,
+      "scenario_duration_ms": 992.0,
+      "scenario_frame_range": [
+        0,
+        61
+      ]
+    }
+  },
+  "limitations": [
+    "One before/after pair cannot establish a fix, regression cause, or statistical significance; repeat randomized or alternating controlled runs.",
+    "Scenario ordinals and replay duration are declared metadata; this comparison does not independently verify scene or input equivalence.",
+    "p95 and p99 are interpolated sample quantiles; tail estimates are unstable with small cohorts.",
+    "A material change exceeds both 5 percent and 1 ms in a reported quantile; these are descriptive thresholds, not significance tests.",
+    "before cohort has high frame-time variability; noisy runs cannot establish significance from this pair."
+  ],
+  "metrics": {
+    "p50": {
+      "after_ms": 16.0,
+      "before_ms": 16.0,
+      "delta_ms": 0.0,
+      "delta_pct": 0.0
+    },
+    "p95": {
+      "after_ms": 16.0,
+      "before_ms": 16.0,
+      "delta_ms": 0.0,
+      "delta_pct": 0.0
+    },
+    "p99": {
+      "after_ms": 16.0,
+      "before_ms": 77.07000000000001,
+      "delta_ms": -61.07000000000001,
+      "delta_pct": -79.23965226417543
+    }
+  },
+  "reasons": [],
+  "schema_version": 1,
+  "statistical_significance": "not_established",
+  "status": "improvement",
+  "synthetic": true,
+  "warnings": [
+    "Native parser schema inspected at e9975d6c245275aaf89a34e8d17a6bbe8badab46; this does not verify the producing executable's build/version",
+    "Performance timeline reconstructed by summing rounded ms intervals; no absolute monotonic timestamps exported. Start uncertainty accumulates 5000 ns per preceding row; interval duration uncertainty is 5000 ns",
+    "First performance row marked warmup: metric deltas can aggregate startup; its diagnostic events omitted",
+    "Performance counters share row identity but durations can overlap and do not prove a cause",
+    "Phase annotation supplied by manifest; replay/scene equivalence is declared, not independently verified",
+    "Native parser schema inspected at e9975d6c245275aaf89a34e8d17a6bbe8badab46; this does not verify the producing executable's build/version",
+    "Performance timeline reconstructed by summing rounded ms intervals; no absolute monotonic timestamps exported. Start uncertainty accumulates 5000 ns per preceding row; interval duration uncertainty is 5000 ns",
+    "First performance row marked warmup: metric deltas can aggregate startup; its diagnostic events omitted",
+    "Performance counters share row identity but durations can overlap and do not prove a cause",
+    "Phase annotation supplied by manifest; replay/scene equivalence is declared, not independently verified"
+  ]
+}

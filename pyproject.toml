@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "visual-game-intelligence"
+version = "0.1.1"
+description = "Experimental offline evidence-based diagnostics for recompiled and emulated games"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Testing",
+]
+dependencies = []
+
+[project.optional-dependencies]
+visual = ["Pillow>=10.0"]
+
+[project.scripts]
+vgi = "vgi.__main__:main"
+
+[project.urls]
+Repository = "https://github.com/kauaaraujo-tech/visual-game-intelligence"
+Issues = "https://github.com/kauaaraujo-tech/visual-game-intelligence/issues"
+
+[tool.setuptools.packages.find]
+include = ["vgi*", "urd*"]

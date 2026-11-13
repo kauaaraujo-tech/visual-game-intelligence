@@ -1,0 +1,47 @@
+name: Public quality gates
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }} / Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.10', '3.12', '3.13']
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      # Verified against the upstream release-tag commit pages; update deliberately.
+      - name: Check out source
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Standard-library-only self-test
+        run: python -S -m vgi self-test
+      - name: Legacy module self-test
+        run: python -S -m urd self-test
+      - name: Standard-library-only suite
+        run: python -S -m unittest discover -s tests -v
+      - name: Install package and optional visual dependency
+        run: python -m pip install -e ".[visual]"
+      - name: Installed command smoke test
+        run: vgi --help
+      - name: Full suite with Pillow
+        run: python -m unittest discover -s tests -v
+      - name: Compile source
+        run: python -m compileall -q urd vgi scripts tests
+      - name: Check public release contents
+        run: python scripts/check_release.py

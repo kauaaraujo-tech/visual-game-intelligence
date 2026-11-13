@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "adapter": "hookshot",
+  "session_id": "SYNTHETIC-HOOKSHOT-NATIVE",
+  "synthetic": true,
+  "metadata": {
+    "clock_domain": "session_monotonic",
+    "scenario": "SYNTHETIC_FIXED_SCENE",
+    "hardware": {
+      "cpu": "synthetic",
+      "gpu": "synthetic"
+    },
+    "settings": {
+      "resolution": "synthetic",
+      "frame_generation": false
+    },
+    "run_group": "synthetic-demo-v1",
+    "build": "SYNTHETIC-after",
+    "sample_kind": "game",
+    "collector": "urd.synthetic.v1",
+    "cache_state": "synthetic-warm",
+    "driver": "synthetic-driver",
+    "power_profile": "synthetic-fixed",
+    "frame_generation": false,
+    "replay": "synthetic-fixed-replay-v1",
+    "scenario_frame_range": [
+      0,
+      61
+    ],
+    "scenario_duration_ms": 992.0
+  },
+  "captures": [
+    {
+      "path": "SYNTHETIC-frame31.ppm",
+      "frame_id": 32,
+      "frame_domain": "hookshot.performance_frame"
+    }
+  ],
+  "performance_trace": "hookshot_frames.csv",
+  "phase_annotations": [
+    {
+      "start_frame": 2,
+      "end_frame": 63,
+      "phase": "gameplay",
+      "basis": "SYNTHETIC fixed replay test only"
+    }
+  ]
+}

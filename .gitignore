@@ -56,3 +56,8 @@ hookshot_prepared.bin
 *.zip
 *.7z
 *.rar
+
+# Versioned synthetic fixtures (never real sessions)
+!examples/**/hookshot_frames.csv
+*.cover
+local-acceptance/
