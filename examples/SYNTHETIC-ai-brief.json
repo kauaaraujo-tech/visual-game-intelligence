@@ -1,0 +1,37 @@
+{
+  "evidence_ids": [
+    "frame:31",
+    "frame:32",
+    "frame:33",
+    "incident-0001",
+    "performance:33:pipe_wait_ms"
+  ],
+  "incidents": [
+    {
+      "baseline_ms": 16.0,
+      "events": [
+        {
+          "association": "exact_frame",
+          "duration_ms": 45.0,
+          "id": "performance:33:pipe_wait_ms",
+          "kind": "pipe_wait_ms"
+        }
+      ],
+      "frame_ids": [
+        31,
+        32,
+        33
+      ],
+      "id": "incident-0001",
+      "peak_ms": 85.0,
+      "threshold_ms": 24.0
+    }
+  ],
+  "limitations": [
+    "Evidence summary only; raw logs, image pixels, paths and source code omitted.",
+    "Correlation cannot prove causation. Hardware vs implementation is inconclusive.",
+    "Frame/event IDs refer to local report only; no invented references allowed."
+  ],
+  "schema_version": 1,
+  "synthetic": true
+}

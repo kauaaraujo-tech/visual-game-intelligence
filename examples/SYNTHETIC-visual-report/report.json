@@ -1,0 +1,176 @@
+{
+  "incidents": [],
+  "limitations": [
+    "Thresholds are heuristic; an incident indicates relative degradation, not a proven cause.",
+    "At least 12 preceding continuous gameplay frames are required; startup and changes before that baseline may be missed."
+  ],
+  "metadata": {
+    "adapter": "generic",
+    "clock_domain": "session_monotonic",
+    "frame_generation": false,
+    "manifest_file": "session.json"
+  },
+  "provenance": [
+    {
+      "file": "session.json",
+      "sha256": "1f219decb72074073bbc24c37330a804a2b3f7c3fcde4810430859009b41267d"
+    },
+    {
+      "file": "frames.csv",
+      "sha256": "6ac9e04ab5c1409698b27e56b99cfbe657574af5f5dd74d069cc38372b0bd118"
+    },
+    {
+      "file": "SYNTHETIC-0.ppm",
+      "sha256": "8804a6930fc5fa9ede4ba5709a18c067967b2862b870ee93a66691964716ed7a"
+    },
+    {
+      "file": "SYNTHETIC-1.ppm",
+      "sha256": "8804a6930fc5fa9ede4ba5709a18c067967b2862b870ee93a66691964716ed7a"
+    },
+    {
+      "file": "SYNTHETIC-2.ppm",
+      "sha256": "10989df9db338bd8a86373d26f68126b5d06638d56a5fafa53be5bda2114651b"
+    },
+    {
+      "file": "SYNTHETIC-3.ppm",
+      "sha256": "8804a6930fc5fa9ede4ba5709a18c067967b2862b870ee93a66691964716ed7a"
+    },
+    {
+      "file": "SYNTHETIC-4.ppm",
+      "sha256": "8804a6930fc5fa9ede4ba5709a18c067967b2862b870ee93a66691964716ed7a"
+    }
+  ],
+  "reproduction": {
+    "command": "python -m urd analyze session.json --visual --out NEW_OUTPUT_DIRECTORY",
+    "input_manifest": "session.json",
+    "requirements": "Python >=3.10; same input bytes and URD version; no network required"
+  },
+  "schema_version": 1,
+  "session_context": {
+    "captures": [
+      {
+        "frame_id": 0,
+        "path": "SYNTHETIC-0.ppm",
+        "relative_path": "SYNTHETIC-0.ppm",
+        "uncertainty_ns": 0
+      },
+      {
+        "frame_id": 1,
+        "path": "SYNTHETIC-1.ppm",
+        "relative_path": "SYNTHETIC-1.ppm",
+        "uncertainty_ns": 0
+      },
+      {
+        "frame_id": 2,
+        "path": "SYNTHETIC-2.ppm",
+        "relative_path": "SYNTHETIC-2.ppm",
+        "uncertainty_ns": 0
+      },
+      {
+        "frame_id": 3,
+        "path": "SYNTHETIC-3.ppm",
+        "relative_path": "SYNTHETIC-3.ppm",
+        "uncertainty_ns": 0
+      },
+      {
+        "frame_id": 4,
+        "path": "SYNTHETIC-4.ppm",
+        "relative_path": "SYNTHETIC-4.ppm",
+        "uncertainty_ns": 0
+      }
+    ],
+    "events": []
+  },
+  "session_id": "SYNTHETIC-VISUAL",
+  "source_correlations": [],
+  "status": "insufficient_data",
+  "summary": {
+    "analyzed_frames": 5,
+    "baseline_qualified_frames": 0,
+    "baseline_window_frames": 60,
+    "discontinuities": 0,
+    "excluded_frames": 0,
+    "incident_count": 0,
+    "invalid_frames": 0,
+    "minimum_baseline_frames": 12,
+    "total_frames": 5,
+    "unassociated_captures": 5,
+    "unassociated_events": 0
+  },
+  "synthetic": true,
+  "tool": {
+    "name": "Universal Recompilation Diagnostics",
+    "version": "0.1.0"
+  },
+  "visual": {
+    "candidates": [
+      {
+        "confidence": "low",
+        "evidence": [
+          {
+            "capture_index": 1,
+            "frame_id": 1,
+            "path": "SYNTHETIC-1.ppm",
+            "relative_path": "SYNTHETIC-1.ppm",
+            "report_image": "evidence/8804a6930fc5fa9ede4ba5709a18c067967b2862b870ee93a66691964716ed7a.ppm",
+            "sha256": "8804a6930fc5fa9ede4ba5709a18c067967b2862b870ee93a66691964716ed7a",
+            "synthetic": true,
+            "uncertainty_ns": 0
+          },
+          {
+            "capture_index": 2,
+            "frame_id": 2,
+            "path": "SYNTHETIC-2.ppm",
+            "relative_path": "SYNTHETIC-2.ppm",
+            "report_image": "evidence/10989df9db338bd8a86373d26f68126b5d06638d56a5fafa53be5bda2114651b.ppm",
+            "sha256": "10989df9db338bd8a86373d26f68126b5d06638d56a5fafa53be5bda2114651b",
+            "synthetic": true,
+            "uncertainty_ns": 0
+          },
+          {
+            "capture_index": 3,
+            "frame_id": 3,
+            "path": "SYNTHETIC-3.ppm",
+            "relative_path": "SYNTHETIC-3.ppm",
+            "report_image": "evidence/8804a6930fc5fa9ede4ba5709a18c067967b2862b870ee93a66691964716ed7a.ppm",
+            "sha256": "8804a6930fc5fa9ede4ba5709a18c067967b2862b870ee93a66691964716ed7a",
+            "synthetic": true,
+            "uncertainty_ns": 0
+          }
+        ],
+        "id": "visual-0001",
+        "kind": "isolated_local_flash",
+        "limitations": [
+          "A local one-frame luminance change can be a legitimate effect or moving object.",
+          "Dense surrounding captures and a controlled replay are needed to distinguish intended content from a defect."
+        ],
+        "metrics": {
+          "changed_fraction": 0.027778,
+          "changed_grid_cells": 4,
+          "neighbor_mean_absolute_difference": 0.0
+        },
+        "status": "candidate_not_proven",
+        "synthetic": true
+      }
+    ],
+    "limitations": [
+      "Luminance-grid heuristics identify visual candidates, not rendering bugs or their causes.",
+      "Loading, fades, exposure changes, effects, menus, and intentional stillness can resemble anomalies.",
+      "Only consecutive explicitly identified frames are compared; filenames and mtime never establish chronology.",
+      "A 16x9 luminance grid can miss small, color-only, HUD, and spatially cancelling defects.",
+      "No candidate does not establish visual correctness; sparse capture cannot resolve a one-frame event."
+    ],
+    "schema_version": 1,
+    "session_id": "SYNTHETIC-VISUAL",
+    "status": "candidates_detected",
+    "summary": {
+      "adjacent_triplets": 3,
+      "captures_seen": 5,
+      "eligible_images": 5,
+      "images_read": 5
+    },
+    "synthetic": true,
+    "warnings": []
+  },
+  "warnings": []
+}

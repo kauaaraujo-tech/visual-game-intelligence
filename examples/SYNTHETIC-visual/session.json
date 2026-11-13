@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "adapter": "generic",
+  "session_id": "SYNTHETIC-VISUAL",
+  "synthetic": true,
+  "metadata": {
+    "clock_domain": "session_monotonic",
+    "frame_generation": false
+  },
+  "frames": "frames.csv",
+  "captures": [
+    {
+      "path": "SYNTHETIC-0.ppm",
+      "frame_id": 0
+    },
+    {
+      "path": "SYNTHETIC-1.ppm",
+      "frame_id": 1
+    },
+    {
+      "path": "SYNTHETIC-2.ppm",
+      "frame_id": 2
+    },
+    {
+      "path": "SYNTHETIC-3.ppm",
+      "frame_id": 3
+    },
+    {
+      "path": "SYNTHETIC-4.ppm",
+      "frame_id": 4
+    }
+  ]
+}
