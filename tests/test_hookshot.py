@@ -94,7 +94,7 @@ class HookshotTests(unittest.TestCase):
         session = self.load()
         self.assertIsNone(session["captures"][0]["frame_id"])
         self.assertIsNone(session["captures"][0]["t_ns"])
-        self.assertEqual(session["captures"][0]["path"], str(self.root / "vk_1.png"))
+        self.assertTrue(Path(session["captures"][0]["path"]).samefile(self.root / "vk_1.png"))
 
     def test_traversal_symlink_and_absolute_sources_rejected(self):
         self.write("frames.csv", HEADER + "0,0.0000,0.000\n1,0.0167,16.667\n")

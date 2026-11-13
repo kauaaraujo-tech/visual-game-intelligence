@@ -6,6 +6,8 @@ This file records user-visible changes. An unreleased entry describes repository
 
 ### Fixed
 
+- Compare capture file identity rather than raw short/long Windows path spelling in the native importer test.
+
 - Normalize generic CSV frame IDs before applying declared phase annotations.
 - Honor temporal uncertainty for events as well as captures.
 - Permit log-only imports as explicitly insufficient per-frame evidence.
