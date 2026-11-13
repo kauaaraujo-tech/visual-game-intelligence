@@ -67,7 +67,7 @@ def _evidence_interval(item, *, capture=False):
     duration = item.get('duration_ms', 0) if not capture else 0
     if not _number(duration) or duration < 0:
         return None
-    uncertainty = item.get('uncertainty_ns', 0) if capture else 0
+    uncertainty = item.get('uncertainty_ns', 0)
     if not _integer(uncertainty) or uncertainty < 0:
         return None
     return timestamp, timestamp + round(duration * 1_000_000), uncertainty

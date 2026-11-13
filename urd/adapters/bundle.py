@@ -35,11 +35,12 @@ def load_session(manifest_path: Path | str) -> dict:
         raise ValueError(f'Unknown adapter: {adapter!r}; supported: generic, hookshot')
     provenance = session.setdefault('provenance', [])
     provenance.insert(0, {'file': path.name, 'sha256': hashlib.sha256(manifest_bytes).hexdigest()})
+    validate_session(session)
     _apply_phase_annotations(session, manifest)
     session['_input_root'] = str(root)
     session['metadata']['adapter'] = adapter
     session['metadata']['manifest_file'] = path.name
-    return validate_session(session)
+    return session
 
 
 def _load_generic(root: Path, manifest: dict) -> dict:

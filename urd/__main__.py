@@ -15,8 +15,8 @@ def save_json(path: Path, value: dict):
     with path.open('x',encoding='utf-8') as stream: stream.write(data)
 
 
-def main(argv=None):
-    parser=argparse.ArgumentParser(prog='python -m urd',description='Offline reproducible diagnostics. No automatic data uploads.')
+def main(argv=None, *, prog="python -m urd"):
+    parser=argparse.ArgumentParser(prog=prog,description='VGI — Visual Game Intelligence. Experimental offline reproducible diagnostics. No automatic data uploads.')
     sub=parser.add_subparsers(dest='command',required=True)
     analyze=sub.add_parser('analyze',help='Import a declared session and create evidence reports')
     analyze.add_argument('manifest',type=Path); analyze.add_argument('--out',type=Path,required=True)
@@ -31,9 +31,17 @@ def main(argv=None):
     ai.add_argument('report',type=Path); ai.add_argument('--model',required=True); ai.add_argument('--port',type=int,default=11434); ai.add_argument('--out',type=Path,required=True)
     collect=sub.add_parser('collect',help='Copy existing native metrics/log, after the game is closed; no configuration changes')
     collect.add_argument('game_dir',type=Path); collect.add_argument('--session-closed',action='store_true'); collect.add_argument('--synthetic',action='store_true'); collect.add_argument('--metadata',type=Path); collect.add_argument('--out',type=Path,required=True)
+    accept=sub.add_parser('accept',help='Copy/import a closed local session and generate an experimental acceptance record')
+    accept.add_argument('source',type=Path); accept.add_argument('--session-closed',action='store_true'); accept.add_argument('--synthetic',action='store_true'); accept.add_argument('--visual',action='store_true'); accept.add_argument('--metadata',type=Path); accept.add_argument('--out',type=Path,required=True)
     sub.add_parser('self-test',help='Exercise ingestion, detection, image association and deterministic report locally')
     args=parser.parse_args(argv)
     try:
+        if args.command=='accept':
+            from vgi.acceptance import accept_local
+            from urd.adapters.bundle import read_json
+            metadata=read_json(args.metadata) if args.metadata else None
+            result=accept_local(args.source,args.out,session_closed=args.session_closed,synthetic=args.synthetic,metadata=metadata,visual=args.visual)
+            print(json.dumps(result,ensure_ascii=False)); return 0
         if args.command=='demo':
             from urd.fixtures import create_demo
             print(create_demo(args.out,args.native_hookshot)); return 0
@@ -78,7 +86,7 @@ def main(argv=None):
                         raise ValueError('Report is not deterministic')
             print('PASS: synthetic generic + native Hookshot; incidents, events, captures, deterministic reports. No real-game validation.'); return 0
     except (OSError,ValueError,KeyError,TypeError,OverflowError,csv.Error,socket.timeout) as exc:
-        print(f'URD: {exc}',file=sys.stderr); return 2
+        print(f'VGI: {exc}',file=sys.stderr); return 2
     return 2
 
 if __name__=='__main__':

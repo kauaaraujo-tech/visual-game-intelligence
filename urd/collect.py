@@ -21,7 +21,7 @@ def collect_hookshot(game_dir: Path | str, destination: Path | str, *, session_c
         if value.get('synthetic') is True and not synthetic:
             raise ValueError('Input directory is marked synthetic; pass --synthetic or use a real session')
     primary=safe_path(source,'hookshot_frames.csv')
-    if not primary.is_file():
+    if not primary.is_file() and not safe_path(source,'hookshot_log.txt').is_file():
         raise ValueError('Missing hookshot_frames.csv. A future launch needs RX_VK_FRAME_TRACE=1; no settings were changed')
     snapshots={}
     for name in ('hookshot_frames.csv','hookshot_log.txt'):
@@ -37,7 +37,8 @@ def collect_hookshot(game_dir: Path | str, destination: Path | str, *, session_c
     meta.update(collector='urd.readonly_snapshot.v1',capture_session_closed_declared=True,
                 data_origin='synthetic_test' if synthetic else 'user_declared_real_unverified')
     manifest={'schema_version':1,'adapter':'hookshot','session_id':'SYNTHETIC-COLLECTED' if synthetic else target.name,
-              'synthetic':synthetic,'metadata':meta,'performance_trace':'hookshot_frames.csv','captures':[]}
+              'synthetic':synthetic,'metadata':meta,'captures':[]}
+    if 'hookshot_frames.csv' in snapshots: manifest['performance_trace']='hookshot_frames.csv'
     if 'hookshot_log.txt' in snapshots: manifest['log']='hookshot_log.txt'
     target.mkdir(parents=True)
     for name,data in snapshots.items(): (target/name).write_bytes(data)

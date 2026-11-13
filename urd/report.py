@@ -14,11 +14,11 @@ from urd.model import sha256_file
 
 def build_report(session: dict, *, visual: bool=False) -> dict:
     report = analyze(session)
-    report.update(tool={'name':'Universal Recompilation Diagnostics','version':__version__},
+    report.update(tool={'name':'VGI — Visual Game Intelligence','version':__version__},
                   metadata=copy.deepcopy(session['metadata']), provenance=copy.deepcopy(session['provenance']),
                   session_context={'events':copy.deepcopy(session['events']), 'captures':copy.deepcopy(session['captures'])},
-                  reproduction={'command':'python -m urd analyze '+shlex.quote(session['metadata'].get('manifest_file','session.json'))+(' --visual' if visual else '')+' --out NEW_OUTPUT_DIRECTORY',
-                                'requirements':'Python >=3.10; same input bytes and URD version; no network required',
+                  reproduction={'command':'python -m vgi analyze '+shlex.quote(session['metadata'].get('manifest_file','session.json'))+(' --visual' if visual else '')+' --out NEW_OUTPUT_DIRECTORY',
+                                'requirements':'Python >=3.10; same input bytes and VGI version; no network required',
                                 'input_manifest':session['metadata'].get('manifest_file','session.json')},
                   _input_root=session.get('_input_root'))
     from urd.sources import correlate_sources
@@ -37,7 +37,7 @@ def _text(value) -> str:
 
 
 def markdown(report: dict) -> str:
-    lines=['# Universal Recompilation Diagnostics', '',
+    lines=['# VGI — Visual Game Intelligence', '',
            '**DADOS SINTÉTICOS — teste do software; nenhum resultado real do jogo.**' if report['synthetic'] else '**Evidência importada — origem declarada real pelo manifesto; autenticidade não verificada.**', '',
            f'Sessão: {_text(report["session_id"])}', f'Estado: {_text(report["status"])}', '',
            '## Evidências e incidentes', '']
@@ -88,7 +88,7 @@ def markdown(report: dict) -> str:
               '## Reprodução', '', '```text', report['reproduction']['command'], '```', '',
               report['reproduction']['requirements'], '', 'Entradas (SHA256):', '']
     for entry in report['provenance']: lines.append(f'- {_text(entry["file"])} — sha256 `{entry["sha256"]}`')
-    lines += ['', f'Ferramenta URD {__version__}. Os parâmetros do detector estão no JSON. Não há chamadas externas automáticas.', '']
+    lines += ['', f'Ferramenta VGI {__version__} (experimental). Os parâmetros do detector estão no JSON. Não há chamadas externas automáticas.', '']
     return '\n'.join(lines)
 
 

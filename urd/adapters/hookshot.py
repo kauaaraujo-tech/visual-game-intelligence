@@ -194,21 +194,23 @@ def load_native(root: Path, manifest: dict) -> dict:
         raise ValueError("metadata object is required")
     performance = manifest.get("performance_trace")
     display = manifest.get("frame_log")
-    if bool(performance) == bool(display):
+    if (performance and display) or (not performance and not display and not manifest.get("log")):
         raise ValueError("Provide exactly one primary: performance_trace or frame_log; their domains cannot be merged")
     metadata = dict(manifest["metadata"])
     metadata.update({"adapter": "hookshot", "parser_source_commit": SOURCE_COMMIT,
                      "native_build_verified": False,
-                     "clock_domain": "hookshot.performance_reconstructed_monotonic" if performance else "hookshot.display_elapsed_monotonic",
-                     "frame_domain": "hookshot.performance_frame" if performance else "hookshot.display_present"})
+                     "clock_domain": "hookshot.performance_reconstructed_monotonic" if performance else "hookshot.display_elapsed_monotonic" if display else "hookshot.context_unverified",
+                     "frame_domain": "hookshot.performance_frame" if performance else "hookshot.display_present" if display else "hookshot.context_unverified"})
     session = {"schema_version": 1, "session_id": manifest.get("session_id"), "synthetic": manifest["synthetic"],
                "metadata": metadata, "frames": [], "events": [], "captures": [], "provenance": [],
                "warnings": ["Native parser schema inspected at " + SOURCE_COMMIT +
                             "; this does not verify the producing executable's build/version"]}
     if performance:
         _performance(root, performance, session)
-    else:
+    elif display:
         _display(root, display, session)
+    else:
+        session["warnings"].append("Log-only input: no per-frame metrics or synchronized captures; performance incident validation is unavailable")
     if manifest.get("present_trace"):
         _present_trace(root, manifest["present_trace"], session)
     if manifest.get("log"):
