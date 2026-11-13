@@ -31,3 +31,16 @@ class VGICompatibilityTests(unittest.TestCase):
     def test_legacy_cli_is_usable(self):
         result=subprocess.run([sys.executable,'-m','urd','self-test'],capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stderr)
+    def test_one_command_acceptance_cli_is_reproducible(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            created=self.cli('demo','--native-hookshot','--out',root/'session')
+            self.assertEqual(created.returncode,0,created.stderr)
+            result=self.cli('accept',root/'session','--session-closed','--synthetic','--out',root/'acceptance')
+            self.assertEqual(result.returncode,0,result.stderr)
+            summary=json.loads(result.stdout)
+            self.assertTrue(summary['synthetic'])
+            self.assertFalse(summary['real_game_diagnostic_validated'])
+            self.assertEqual(summary['checks']['frame_count'],63)
+            self.assertTrue((root/'acceptance/acceptance.json').is_file())
+            self.assertTrue((root/'acceptance/report/report.md').is_file())

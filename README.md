@@ -12,7 +12,14 @@ Local evidence-based diagnostics for recompiled and emulated games. VGI imports 
 
 Requires **Python 3.10 or newer**. The core uses the standard library. No administrator privileges, API key, Docker, background service, or game installation is required for the synthetic demo.
 
-From the repository directory:
+Get the source, then run from its directory (or download and extract the repository ZIP):
+
+```bash
+git clone https://github.com/kauaaraujo-tech/visual-game-intelligence.git
+cd visual-game-intelligence
+```
+
+From that directory:
 
 ```bash
 python -m vgi self-test
