@@ -41,9 +41,9 @@
     }
   ],
   "reproduction": {
-    "command": "python -m urd analyze session.json --visual --out NEW_OUTPUT_DIRECTORY",
+    "command": "python -m vgi analyze session.json --visual --out NEW_OUTPUT_DIRECTORY",
     "input_manifest": "session.json",
-    "requirements": "Python >=3.10; same input bytes and URD version; no network required"
+    "requirements": "Python >=3.10; same input bytes and VGI version; no network required"
   },
   "schema_version": 1,
   "session_context": {
@@ -99,8 +99,8 @@
   },
   "synthetic": true,
   "tool": {
-    "name": "Universal Recompilation Diagnostics",
-    "version": "0.1.0"
+    "name": "VGI — Visual Game Intelligence",
+    "version": "0.1.1"
   },
   "visual": {
     "candidates": [

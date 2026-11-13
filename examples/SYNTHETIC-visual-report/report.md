@@ -1,4 +1,4 @@
-# Universal Recompilation Diagnostics
+# VGI — Visual Game Intelligence
 
 **DADOS SINTÉTICOS — teste do software; nenhum resultado real do jogo.**
 
@@ -48,10 +48,10 @@ O JSON preserva os eventos não alinhados e suas referências. Nomes de arquivos
 ## Reprodução
 
 ```text
-python -m urd analyze session.json --visual --out NEW_OUTPUT_DIRECTORY
+python -m vgi analyze session.json --visual --out NEW_OUTPUT_DIRECTORY
 ```
 
-Python >=3.10; same input bytes and URD version; no network required
+Python >=3.10; same input bytes and VGI version; no network required
 
 Entradas (SHA256):
 
@@ -63,4 +63,4 @@ Entradas (SHA256):
 - SYNTHETIC-3.ppm — sha256 `8804a6930fc5fa9ede4ba5709a18c067967b2862b870ee93a66691964716ed7a`
 - SYNTHETIC-4.ppm — sha256 `8804a6930fc5fa9ede4ba5709a18c067967b2862b870ee93a66691964716ed7a`
 
-Ferramenta URD 0.1.0. Os parâmetros do detector estão no JSON. Não há chamadas externas automáticas.
+Ferramenta VGI 0.1.1 (experimental). Os parâmetros do detector estão no JSON. Não há chamadas externas automáticas.

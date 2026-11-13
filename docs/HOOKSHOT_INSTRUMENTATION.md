@@ -1,6 +1,6 @@
 # Hookshot instrumentation evidence (2026-11-13)
 
-Public primary repository: https://github.com/NotRexed/Hookshot . HookshotBuilder is in the same repository (`builder/HookshotBuilder/HookshotBuilder.csproj`), not a separate instrumentation SDK. Inspected immutable main snapshot **e9975d6c245275aaf89a34e8d17a6bbe8badab46**, authored 2026-11-13T01:54:56Z. This is an inspection pin, not a supported release recommendation. Public selected files are in `recon/hookshot/`; no game files or executable were obtained or run.
+Public primary repository: https://github.com/NotRexed/Hookshot . HookshotBuilder is in the same repository (`builder/HookshotBuilder/HookshotBuilder.csproj`), not a separate instrumentation SDK. Inspected immutable main snapshot **e9975d6c245275aaf89a34e8d17a6bbe8badab46**, authored 2026-11-13T01:54:56Z. This is an inspection pin, not a supported release recommendation. Only selected public implementation files were inspected; upstream implementation and game files are not part of this repository, and no game executable was run.
 
 ## Verified exports
 

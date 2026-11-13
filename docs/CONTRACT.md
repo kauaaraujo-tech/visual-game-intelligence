@@ -12,5 +12,3 @@ Analysis API: urd.analysis.analyze(session: dict) -> dict.
 Report keys schema_version=1, session_id, synthetic, status (incidents_detected/no_anomaly/insufficient_data), incidents (list), summary (dict), limitations (list[str]), warnings (list[str]).
 Incident: id, start_ns, end_ns (includes last frame duration), frame_ids (list[int]), baseline_ms, peak_ms, threshold_ms, events (list[{event:dict,association:str}]), captures (list[{capture:dict,association:str}]), hypotheses (list[{id,claim,status:'hypothesis',confidence:'low'|'medium',evidence_ids:list[str],next_test}]), limitations (list[str]).
 Event/capture exact frame join preferred; timestamp overlap only if shared monotonic clock; disagreement never yields exact join. Untimed events remain session context, outside incidents. Association within uncertainty window marked uncertain. No causal conclusions from correlation. Sustained slow hardware alone isn't abnormal relative degradation.
-
-Root owns importers, CLI, report, comparisons, visual and local AI. Analysis worker owns only urd/analysis.py and tests/test_analysis.py. Research worker owns recon outside project. Independent reviewers read only.
