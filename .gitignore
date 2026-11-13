@@ -1,0 +1,58 @@
+# Python bytecode, environments and tooling
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local analyses and potentially private game-session evidence
+output/
+local-sessions/
+captures/
+recordings/
+screenshots/
+traces/
+local-reports/
+hookshot_log.txt
+hookshot_frames.csv
+mkw_vk_pipelines.bin
+hookshot_programs.bin
+hookshot_prepared.bin
+*.log
+
+# Local packaging
+*.zip
+*.7z
+*.rar
