@@ -2,6 +2,13 @@
 
 VGI prioritizes work by diagnostic impact, evidence quality, and dependencies. Version 0.1.1 is experimental. The current implementation is local and adapter-based. Synthetic tests establish software behavior; controlled real-game validation remains open.
 
+An initial compatible Windows trace has been imported and analyzed with hashes
+preserved. It exposed unknown-phase baseline sensitivity and oversized Markdown
+output; bounded evidence previews address the latter while retaining full JSON.
+The detector was not changed to reinterpret an unlabeled scene transition.
+See the [current validation checkpoint](VALIDATION.md). Controlled replays,
+visible-incident labels and capture-overhead comparisons remain next steps.
+
 ## Implemented foundations
 
 | Capability | Current state | Remaining evidence |
