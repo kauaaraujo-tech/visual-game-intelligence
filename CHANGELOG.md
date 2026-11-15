@@ -2,6 +2,14 @@
 
 This file records user-visible changes. An unreleased entry describes repository work, not a published release or verified real-game result.
 
+## Unreleased
+
+- Keep large Markdown reports readable with explicit event/identity previews and
+  grouped source references. Complete JSON evidence and detection results are
+  preserved; measured-duration preview order does not establish cause.
+- Record an initial compatible local Windows frame-trace import and its
+  limitations; diagnostic accuracy and capture overhead remain unvalidated.
+
 ## 0.1.1 — Experimental public import
 
 ### Fixed

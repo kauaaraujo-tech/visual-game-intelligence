@@ -4,6 +4,7 @@ import copy
 import html
 import hashlib
 import json
+import math
 import shutil
 import shlex
 from pathlib import Path
@@ -36,6 +37,18 @@ def _text(value) -> str:
     return text.replace('\n',' ')
 
 
+def _list_preview(values: list, *, ends: bool=False) -> str:
+    if len(values) <= 12:
+        return _text(values)
+    sample = (_text(values[:6])+' … '+_text(values[-6:])) if ends else _text(values[:12])
+    return f'{sample} (12 de {len(values)} itens; {len(values)-12} omitido(s); lista completa em report.json)'
+
+
+def _measured_duration(row: dict) -> float:
+    duration = row['event'].get('duration_ms')
+    return duration if isinstance(duration, (int, float)) and math.isfinite(duration) and duration >= 0 else -1
+
+
 def markdown(report: dict) -> str:
     lines=['# VGI — Visual Game Intelligence', '',
            '**DADOS SINTÉTICOS — teste do software; nenhum resultado real do jogo.**' if report['synthetic'] else '**Evidência importada — origem declarada real pelo manifesto; autenticidade não verificada.**', '',
@@ -43,12 +56,22 @@ def markdown(report: dict) -> str:
            '## Evidências e incidentes', '']
     for incident in report['incidents']:
         lines += [f'### {_text(incident["id"])}', '',
-                  f'Quadros: {_text(incident["frame_ids"])}. Intervalo monotônico local: {incident["start_ns"]}–{incident["end_ns"]} ns.',
+                  f'Quadros: {_list_preview(incident["frame_ids"], ends=True)}. Intervalo monotônico local: {incident["start_ns"]}–{incident["end_ns"]} ns.',
                   f'Baseline: {incident["baseline_ms"]:.3f} ms; pico: {incident["peak_ms"]:.3f} ms; limiar: {incident["threshold_ms"]:.3f} ms.', '',
                   'Eventos associados (correlação temporal/identidade; causalidade não comprovada):', '']
-        for item in incident.get('events',[]):
+        events = incident.get('events', [])
+        preview = sorted(events, key=_measured_duration, reverse=True)[:8]
+        if events:
+            description = (f'Prévia: {len(preview)} de {len(events)} evento(s), por duração medida decrescente; '
+                           'ordem não indica causa. ')
+            if len(events) > len(preview):
+                description += f'{len(events)-len(preview)} evento(s) omitido(s). '
+            lines += [description+'Evidência completa em report.json.', '']
+        for item in preview:
             event=item['event']; source=event.get('source',{})
-            lines.append(f'- {_text(event["id"])} — {_text(event["kind"])}; {_text(item["association"])}; {_text(source.get("file","?"))}:{source.get("line","?")}; {_text(event.get("message",""))}')
+            duration = _measured_duration(item)
+            measured = f'{duration:.3f} ms' if duration >= 0 else 'duração não disponível'
+            lines.append(f'- {_text(event["id"])} — {_text(event["kind"])}; {_text(item["association"])}; {measured}; {_text(source.get("file","?"))}:{source.get("line","?")}; {_text(event.get("message",""))}')
         if not incident.get('events'): lines.append('Nenhum evento interno alinhado disponível.')
         lines += ['', 'Capturas associadas:', '']
         for item in incident.get('captures',[]):
@@ -59,7 +82,7 @@ def markdown(report: dict) -> str:
         if not incident.get('captures'): lines.append('Nenhuma captura alinhada disponível.')
         lines += ['', 'Hipóteses — **Não comprovada**:', '']
         for hypothesis in incident.get('hypotheses',[]):
-            lines.append(f'- {_text(hypothesis.get("claim",""))} Confiança: {_text(hypothesis.get("confidence","low"))}. Evidências: {_text(hypothesis.get("evidence_ids",[]))}. Próximo teste: {_text(hypothesis.get("next_test",""))}')
+            lines.append(f'- {_text(hypothesis.get("claim",""))} Confiança: {_text(hypothesis.get("confidence","low"))}. Evidências: {_list_preview(hypothesis.get("evidence_ids",[]))}. Próximo teste: {_text(hypothesis.get("next_test",""))}')
         for limitation in incident.get('limitations',[]): lines.append(f'- Limitação: {_text(limitation)}')
         lines.append('')
     if not report['incidents']:
@@ -70,8 +93,11 @@ def markdown(report: dict) -> str:
     for text in report.get('limitations',[])+report.get('warnings',[]): lines.append('- '+_text(text))
     if report.get('source_correlations'):
         lines += ['', '## Referências no código', '', 'Referências apontam à emissão da instrumentação inspecionada; não identificam código defeituoso nem comprovam a versão instalada.', '']
+        groups = {}
         for ref in report['source_correlations']:
-            lines.append(f'- {_text(ref["evidence_id"])} → [emissão de {_text(ref["metric"])}]({ref["url"]})')
+            groups.setdefault((ref['url'], ref['metric']), []).append(ref['evidence_id'])
+        for (url, metric), evidence_ids in groups.items():
+            lines.append(f'- [emissão de {_text(metric)}]({url}) — {len(evidence_ids)} referência(s); evidências: {_list_preview(evidence_ids)}.')
     if 'visual' in report:
         visual=report['visual']
         lines += ['', '## Análise visual', '', f'Estado: {_text(visual["status"])}. Candidatos visuais são indícios, não bugs confirmados.', '']

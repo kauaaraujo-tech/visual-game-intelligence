@@ -37,3 +37,29 @@ A separate historical text-log snapshot produced JSON/Markdown with zero frame
 samples and `insufficient_data`. This exercises context-only import; no real
 frametime session, diagnostic accuracy, false-positive rate or capture overhead
 was validated by this check.
+
+## Initial compatible local trace and readable reports — 2026-11-14
+
+A subsequent user-operated Hookshot run emitted the expected native performance
+CSV, exited normally, and imported 10,123 intervals. Original, staged and
+report provenance hashes matched; earlier logs were preserved separately.
+The trace contains no synchronized screenshots or independently labeled scenes.
+It demonstrates compatible data ingestion and inspectable measurements, while
+`real_game_diagnostic_validated` remains false: accuracy, causal diagnosis,
+false positives and instrumented-versus-uninstrumented overhead were not tested.
+Raw inputs and reports remain private and are not distributed with VGI.
+
+The detector emitted 66 relative episodes. One retained an earlier 3.575 ms
+baseline over the final 4,130 intervals after a numerical regime change. This
+shows sensitivity to unknown phases; it does not identify a menu transition,
+establish 66 visible stutters or justify silently resetting the baseline.
+
+That session also exposed a report usability problem: Markdown repeated large
+event/identity lists and thousands of identical source links. Bounded previews
+and grouped links reduced the separately regenerated Markdown from 16,605,403
+to 181,030 on-disk bytes on Windows. The regenerated full JSON was parsed and
+compared equal to the original; no machine evidence or detector result changed.
+Four synthetic regressions check output growth, stable duration ordering,
+distinct source targets/metrics, exact omissions, deterministic output and full
+JSON preservation. The resulting Windows suite ran 140 tests without failures
+or errors (four local symlink skips with Pillow; 20 skips without site packages).

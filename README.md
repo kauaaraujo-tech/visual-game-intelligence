@@ -6,7 +6,7 @@
 
 Local evidence-based diagnostics for recompiled and emulated games. VGI imports recorded frame timings, correlates declared events and captures, and produces inspectable JSON and Markdown reports. Hookshot is the first native adapter; a generic session format keeps the analysis independent of any one project.
 
-**The implementation has been exercised with clearly marked synthetic data. No diagnosis from a real game, real local model inference, or real-game false-positive rate has been validated.** Findings are investigation candidates, not proof of a rendering bug, its cause, or a successful fix.
+**The implementation has been exercised with clearly marked synthetic data and an initial locally captured Hookshot trace on Windows. Diagnostic accuracy, real local model inference, and the real-game false-positive rate remain unvalidated.** Findings are investigation candidates, not proof of a rendering bug, its cause, or a successful fix.
 
 ## Quick start
 
@@ -51,8 +51,8 @@ Without Pillow, performance analysis still works; `--visual` reports that image 
 
 | Capability | Implemented behavior | Validation boundary |
 |---|---|---|
-| Offline ingestion | Strict native Hookshot CSV and generic manifest-based bundles | Synthetic fixtures of inspected formats; installed game builds are not verified |
-| Relative slowdown detection | Robust preceding baseline, incident frames, associated events and captures | Heuristic thresholds; real-game sensitivity and false positives remain unmeasured |
+| Offline ingestion | Strict native Hookshot CSV and generic manifest-based bundles | Synthetic fixtures and one compatible local Windows trace; producing source commit remains unverified |
+| Relative slowdown detection | Robust preceding baseline, incident frames, associated events and captures | Heuristic thresholds; an unknown scene change can retain an earlier baseline; real sensitivity and false positives remain unmeasured |
 | Evidence reports | SHA256 provenance, source file/line references, parameters, limitations, and next tests | Hashes establish input identity, not authenticity or causal truth |
 | Visual candidates | Persistent black intervals, local one-frame flashes, repeated frames during declared motion | Conservative luminance heuristics; adjacent identified captures required |
 | Source references | Links to the inspected instrumentation emission at a pinned commit | Does not identify faulty code or establish the user's binary version |
@@ -60,6 +60,12 @@ Without Pillow, performance analysis still works; `--visual` reports that image 
 | Optional local model | Reduced evidence brief and loopback-only model client | Transport tested with a mock server; real model quality remains unvalidated |
 
 VGI does not provide a live overlay, automatic continuous capture, binary `RX_VK_FRAMELOG` ingestion, automatic clock calibration, automatic fixes, or a validated hardware-versus-port verdict.
+
+Markdown reports show bounded previews: up to eight associated events per
+incident, up to twelve frame/evidence IDs, and source links grouped by target
+and metric. Totals and omissions are explicit; event order follows measured
+duration and does not establish cause. **The JSON retains the complete evidence**
+and can still be large. The original input files remain unchanged.
 
 ## Import an existing Hookshot session
 
@@ -87,7 +93,7 @@ For a single local acceptance run that collects, analyzes, and records import/ev
 python -m vgi accept /path/to/hookshot/bin --session-closed --out local-acceptance/run-001
 ```
 
-On Windows: `py -3 -m vgi accept 'C:\Games\Hookshot\bin' --session-closed --out .\local-acceptance\run-001`. This checks an imported session; it does not establish that the evidence is authentic or that diagnostics are effective in a real game. See the [local acceptance procedure](docs/LOCAL_ACCEPTANCE.md). Synthetic tool checks now run on Windows in CI; real Hookshot gameplay acceptance on a user PC remains pending.
+On Windows: `py -3 -m vgi accept 'C:\Games\Hookshot\bin' --session-closed --out .\local-acceptance\run-001`. This checks an imported session; it does not establish that the evidence is authentic or that diagnostics are effective in a real game. See the [local acceptance procedure](docs/LOCAL_ACCEPTANCE.md). Synthetic tool checks run on Windows in CI; an initial compatible local Hookshot trace has also been imported. Controlled gameplay diagnostic validation remains pending.
 
 A manifest may also be written directly:
 

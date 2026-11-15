@@ -1,6 +1,6 @@
-# Local acceptance — real validation still pending
+# Local acceptance — controlled diagnostic validation still pending
 
-VGI v0.1.1 is experimental. This procedure is intended for a machine with a supported Hookshot build and a legitimate local installation. No real Windows/Hookshot gameplay session or diagnostic effectiveness validation has been performed. Synthetic tool checks have passed on Windows CI; see the validation summary. Remote access is not required to run these commands.
+VGI v0.1.1 is experimental. This procedure is intended for a machine with a supported Hookshot build and a legitimate local installation. An initial user-operated Windows capture has been imported with a compatible native schema and matching hashes. Controlled diagnostic effectiveness, false positives and capture overhead remain unvalidated. Synthetic tool checks have passed on Windows CI; see the validation summary. Remote access is not required to run these commands.
 
 A successful command establishes that a particular declared session was imported and checked. It does not prove the recording is genuine, a slowdown was correctly diagnosed, a visual candidate is a bug, or a fix works. Those claims require the controlled checks below.
 
