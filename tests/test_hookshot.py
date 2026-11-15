@@ -1,4 +1,5 @@
 """Synthetic fixtures of the public pinned Hookshot export formats; no game data."""
+import errno
 import hashlib
 import tempfile
 import unittest
@@ -96,15 +97,30 @@ class HookshotTests(unittest.TestCase):
         self.assertIsNone(session["captures"][0]["t_ns"])
         self.assertTrue(Path(session["captures"][0]["path"]).samefile(self.root / "vk_1.png"))
 
-    def test_traversal_symlink_and_absolute_sources_rejected(self):
+    def test_traversal_and_absolute_sources_rejected(self):
         self.write("frames.csv", HEADER + "0,0.0000,0.000\n1,0.0167,16.667\n")
         outside = self.root.parent / (self.root.name + "-outside.csv")
         outside.write_text(HEADER, encoding="utf-8")
         self.addCleanup(outside.unlink)
-        (self.root / "linked.csv").symlink_to(outside)
-        for path in ("../" + outside.name, str(outside), "linked.csv"):
+        for path in ("../" + outside.name, str(outside)):
             with self.subTest(path=path), self.assertRaises(ValueError):
                 load_native(self.root, {**self.manifest, "frame_log": path})
+
+    def test_symlink_source_rejected(self):
+        outside = self.root.parent / (self.root.name + "-outside.csv")
+        outside.write_text(HEADER, encoding="utf-8")
+        self.addCleanup(outside.unlink)
+        try:
+            (self.root / "linked.csv").symlink_to(outside)
+        except NotImplementedError:
+            self.skipTest("Symlinks unavailable")
+        except OSError as exc:
+            if (exc.errno in {errno.EACCES, errno.EPERM, errno.ENOSYS, errno.ENOTSUP, errno.EOPNOTSUPP}
+                    or getattr(exc, "winerror", None) == 1314):
+                self.skipTest(f"Symlinks unavailable: {exc}")
+            raise
+        with self.assertRaises(ValueError):
+            load_native(self.root, {**self.manifest, "frame_log": "linked.csv"})
 
     def test_synthetic_flag_is_required_instead_of_assuming_real_session(self):
         self.manifest.pop("synthetic")
