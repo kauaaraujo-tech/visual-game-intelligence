@@ -23,11 +23,11 @@ class VGICompatibilityTests(unittest.TestCase):
             self.assertEqual(demo.returncode,0,demo.stderr)
             result=self.cli('analyze',root/'session/session.json','--out',root/'report')
             self.assertEqual(result.returncode,0,result.stderr)
-            report=json.loads((root/'report/report.json').read_text())
+            report=json.loads((root/'report/report.json').read_text(encoding='utf-8'))
             self.assertTrue(report['synthetic'])
             self.assertEqual(report['tool']['name'],'VGI — Visual Game Intelligence')
             self.assertIn('python -m vgi',report['reproduction']['command'])
-            self.assertIn('VGI', (root/'report/report.md').read_text())
+            self.assertIn('VGI', (root/'report/report.md').read_text(encoding='utf-8'))
     def test_legacy_cli_is_usable(self):
         result=subprocess.run([sys.executable,'-m','urd','self-test'],capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stderr)

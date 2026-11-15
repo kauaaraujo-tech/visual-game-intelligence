@@ -15,3 +15,25 @@ The architecture separates importers, normalized evidence, detection, reporting 
 [PR workflow run 43370022464](https://github.com/kauaaraujo-tech/visual-game-intelligence/actions/runs/43370022464) passed all six jobs on source commit `c562fa88ce3d9196ab7a37c6f8a244e4e09ab8f0`: Linux and Windows with Python 3.10, 3.12, and 3.13. Jobs exercise the 134-test suite with Pillow, standard-library-only checks (16 expected visual skips), editable installation, CLI smoke tests, compilation, and the public-content scanner.
 
 An initial Windows run exposed a test assumption about short/long temporary-directory names. The test now compares actual file identity; diagnostic behavior was preserved. These are synthetic software checks on CI runners, not a Hookshot/gameplay trial or a measured diagnostic false-positive rate.
+
+## Local Windows check — 2026-11-14
+
+Python 3.14.6 on a Windows account without symbolic-link creation privileges
+exposed two test assumptions: UTF-8 reports were read using the system's default
+encoding, and three symlink fixtures required a privilege unavailable to an
+ordinary local account. Tests now read reports explicitly as UTF-8 and skip
+symlink checks only when fixture creation reports an unsupported capability or
+permission error. Traversal and absolute-path rejection remain independently
+tested. Application behavior and system privileges are unchanged.
+
+The resulting suite ran **136 tests with zero failures or errors**: four symlink
+checks were skipped. With Pillow 13.0.0, all 16 visual checks ran. A separate
+standard-library-only run passed with 20 skips (16 visual, four symlink).
+The self-test, installed CLI, native synthetic demo/analysis/acceptance, source
+compilation and public-content scan passed. Symlink behavior was not validated
+on this local account; the historical CI evidence above is a separate checkpoint.
+
+A separate historical text-log snapshot produced JSON/Markdown with zero frame
+samples and `insufficient_data`. This exercises context-only import; no real
+frametime session, diagnostic accuracy, false-positive rate or capture overhead
+was validated by this check.

@@ -23,7 +23,7 @@ class CLITests(unittest.TestCase):
         self.assertTrue(report['incidents'][0]['events'])
         self.assertTrue(report['incidents'][0]['captures'])
         write_report(report, self.root / 'out')
-        text = (self.root / 'out' / 'report.md').read_text()
+        text = (self.root / 'out' / 'report.md').read_text(encoding='utf-8')
         self.assertIn('SINTÉTICOS', text)
         self.assertIn('sha256', text.lower())
         self.assertIn('Não comprovada', text)
@@ -54,5 +54,5 @@ class CLITests(unittest.TestCase):
         session=load_session(create_demo(self.root/'demo'))
         session['events'][0]['message']='[click](https://evil.invalid) <script>alert(1)</script>'
         write_report(build_report(session),self.root/'out')
-        md=(self.root/'out/report.md').read_text()
+        md=(self.root/'out/report.md').read_text(encoding='utf-8')
         self.assertNotIn('<script>',md)

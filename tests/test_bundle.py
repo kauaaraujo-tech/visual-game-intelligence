@@ -1,3 +1,4 @@
+import errno
 import json
 import tempfile
 import unittest
@@ -29,7 +30,15 @@ class BundleTests(unittest.TestCase):
         for path in ['../x', '/etc/passwd', 'https://example/a', 'C:\\secret', '..\\x']:
             with self.subTest(path=path), self.assertRaises(ValueError): safe_path(self.root, path)
     def test_symlink_escape(self):
-        (self.root / 'escape').symlink_to(Path(self.tmp.name).parent)
+        try:
+            (self.root / 'escape').symlink_to(Path(self.tmp.name).parent, target_is_directory=True)
+        except NotImplementedError:
+            self.skipTest('Symlinks unavailable')
+        except OSError as exc:
+            if (exc.errno in {errno.EACCES, errno.EPERM, errno.ENOSYS, errno.ENOTSUP, errno.EOPNOTSUPP}
+                    or getattr(exc, 'winerror', None) == 1314):
+                self.skipTest(f'Symlinks unavailable: {exc}')
+            raise
         with self.assertRaises(ValueError): safe_path(self.root, 'escape/file')
     def test_nonfinite_duration(self):
         for value in ['nan', 'inf', '-1', '0']:

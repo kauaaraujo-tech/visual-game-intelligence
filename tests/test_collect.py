@@ -1,3 +1,4 @@
+import errno
 import json
 import tempfile
 import unittest
@@ -29,5 +30,13 @@ class CollectTests(unittest.TestCase):
     def test_symlink_outside_game_is_not_collected(self):
         self.root.joinpath('game/hookshot_frames.csv').unlink()
         self.root.joinpath('external.csv').write_text('secret')
-        self.root.joinpath('game/hookshot_frames.csv').symlink_to(self.root/'external.csv')
+        try:
+            self.root.joinpath('game/hookshot_frames.csv').symlink_to(self.root/'external.csv')
+        except NotImplementedError:
+            self.skipTest('Symlinks unavailable')
+        except OSError as exc:
+            if (exc.errno in {errno.EACCES, errno.EPERM, errno.ENOSYS, errno.ENOTSUP, errno.EOPNOTSUPP}
+                    or getattr(exc, 'winerror', None) == 1314):
+                self.skipTest(f'Symlinks unavailable: {exc}')
+            raise
         with self.assertRaises(ValueError): collect_hookshot(self.root/'game',self.root/'out',session_closed=True)
